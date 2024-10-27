@@ -1,0 +1,2 @@
+# AIGenerativa
+Obligatorio AI Generativa
