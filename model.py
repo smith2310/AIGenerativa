@@ -66,6 +66,9 @@ class BinPackingGame:
     
     def coverage(self) -> float:
         return sum(box.width * box.height for box in self.boxes) / (self.container.width * self.container.height)
+    
+    def available_space(self) -> int:
+        return self.container.width * self.container.height - sum(box.width * box.height for box in self.boxes)
 
     def solve(self) -> BaseBinPackingGameResult:
         model = cp_model.CpModel()
