@@ -1,6 +1,6 @@
 import random
 from typing import List, Optional
-from model import BinPackingGame, Box, ResolvedBinPackingGameResult
+from models import BinPackingGame, Box, ResolvedBinPackingGameResult
 import copy
 
 
@@ -55,7 +55,9 @@ class RandomGenerator:
         de ser asi la agregamos a la lista.
         """
         boxes_per_container = list(range(self.min_boxes_per_container, self.max_boxes_per_container + 1))
+        attempts = 0
         while (len(self.valid_bin_packing_games) < games_to_generate):
+            attempts += 1
             # Vamos a intentar generar un juego que contenga {number_of_boxes} cajas
             number_of_boxes = random.choice(boxes_per_container)
             boxes = []
@@ -73,5 +75,6 @@ class RandomGenerator:
             # Vamos a intentar agregar el juego a la lista de juegos válidos, si no es posible, le vamos quitando cajas hasta que sea posible
             while (len(bin_packing_game.boxes) > self.min_boxes_per_container) and (not self.add_game(bin_packing_game)):
                 bin_packing_game.boxes.pop()
+        print(f"Generated {len(self.valid_bin_packing_games)} valid bin packing games in {attempts} attempts")
         return self.valid_bin_packing_games
         
