@@ -38,5 +38,6 @@ class BinPackingDataset(Dataset):
         """
         container, boxes = self.data[idx]
         container_tensor = torch.tensor(container, dtype=torch.float32)
-        boxes_tensor = torch.tensor(boxes, dtype=torch.float32)
+        boxes_with_eos = boxes + [(0, 0)]
+        boxes_tensor = torch.tensor(boxes_with_eos, dtype=torch.float32)
         return container_tensor, boxes_tensor
