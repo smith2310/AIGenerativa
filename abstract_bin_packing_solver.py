@@ -1,6 +1,8 @@
 
 from abc import ABC, abstractmethod
 
+import torch
+
 
 class AbstractBinPackingSolver(ABC):
     def __init__(
@@ -15,7 +17,6 @@ class AbstractBinPackingSolver(ABC):
         self.log_fn = log_fn
         self.device = device
         
-
     @abstractmethod
     def train(self):
         pass
