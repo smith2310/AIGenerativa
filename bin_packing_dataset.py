@@ -24,7 +24,7 @@ class BinPackingDataset(Dataset):
                         self.data.append((container, boxes))
 
     def __len__(self):
-        return len(self.data)
+        return  10000 # len(self.data)
     
     def __getitem__(self, idx):
         """
