@@ -31,7 +31,7 @@ class RandomGenerator:
         self.generated_bin_packing_game_keys = set()
 
     def add_game(self, bin_packing_game: BinPackingGame) -> bool:
-        key = bin_packing_game.generate_unique_key()
+        key = hash(bin_packing_game)
         if (len(bin_packing_game.boxes) >= self.min_boxes_per_container) \
             and (len(bin_packing_game.boxes) <= self.max_boxes_per_container) \
             and (key not in self.generated_bin_packing_game_keys) \
