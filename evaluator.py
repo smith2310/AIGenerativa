@@ -91,18 +91,20 @@ class Evaluator:
                 game = BinPackingGame(container, valid_boxes)
                 result = game.solve()
                 game_coverage = game.coverage()
-                coverage_average += game_coverage
-                box_count_average += len(valid_boxes)
                 if isinstance(result, ResolvedBinPackingGameResult):
                     valid_games_average += 1
                     if not self.dataset.has_game(game):
                         unique_games.add(game)
                     if not self.dataset.has_game(game):
                         new_games_average += 1
+                    if self.min_coverage is None or game_coverage >= self.min_coverage:
+                        coverage_average += game_coverage
+                    box_count_average += len(valid_boxes)
+            if valid_games_average != 0:    
+                coverage_average /= valid_games_average
+                box_count_average /= valid_games_average
             valid_games_average /= self.attempt_per_config
             unique_games_average = len(unique_games)/self.attempt_per_config
-            coverage_average /= self.attempt_per_config
-            box_count_average /= self.attempt_per_config
             new_games_average /= self.attempt_per_config
             evalution_results.append(
                 EvalutionResult(
