@@ -2,6 +2,8 @@ import os
 import torch
 from torch.utils.data import Dataset
 
+from models import BinPackingGame
+
 class BinPackingDataset(Dataset):
     def __init__(self, folder_path):
         """
@@ -9,6 +11,7 @@ class BinPackingDataset(Dataset):
             folder_path (str): Ruta al directorio que contiene los archivos .txt.
         """
         self.data = []
+        self._keys = set()
 
         # Recorrer todos los archivos en el directorio
         for file_name in os.listdir(folder_path):
@@ -22,9 +25,26 @@ class BinPackingDataset(Dataset):
                         container = values[:2]  # El primer par es el contenedor (width, height)
                         boxes = [(values[i], values[i+1]) for i in range(2, len(values), 2)]  # Pares de cajas
                         self.data.append((container, boxes))
+                        key = hash((tuple(container), tuple(boxes)))
+                        self._keys.add(key)
+
+    def has_game(self, game: BinPackingGame) -> bool:
+        """
+        Verifica si el juego ya está en el dataset.
+        
+        Args:
+            game (BinPackingGame): Juego a verificar.
+            
+        Returns:
+            bool: True si el juego ya está en el dataset, False en caso contrario.
+        """
+        container = (float(game.container.width), float(game.container.height))
+        boxes = [(float(box.width), float(box.height)) for box in game.boxes]
+        key = hash((tuple(container), tuple(boxes)))
+        return key in self._keys
 
     def __len__(self):
-        return  10000 # len(self.data)
+        return len(self.data)
     
     def __getitem__(self, idx):
         """
