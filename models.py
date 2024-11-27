@@ -2,10 +2,10 @@ from typing import List
 from ortools.sat.python import cp_model
 import hashlib
 
-class BaseBinPackingGameResult:
+class BinPackingGameResult:
     pass
     
-class ResolvedBinPackingGameResult(BaseBinPackingGameResult):
+class ResolvedBinPackingGameResult(BinPackingGameResult):
     def __init__(self, positions: List[tuple[int, int]]):
         self.positions = positions
     
@@ -15,14 +15,14 @@ class ResolvedBinPackingGameResult(BaseBinPackingGameResult):
     def __repr__(self) -> str:
         return self.__str__()
 
-class InfeasibleBinPackingGameResult(BaseBinPackingGameResult):
+class InfeasibleBinPackingGameResult(BinPackingGameResult):
     def __str__(self) -> str:
         return "UnfeasibleBinPackingGameResult()"
     
     def __repr__(self) -> str:
         return self.__str__()
 
-class InvalidBinPackingGameResult(BaseBinPackingGameResult):
+class InvalidBinPackingGameResult(BinPackingGameResult):
     def __str__(self) -> str:
         return "InvalidBinPackingGameResult()"
     
@@ -76,7 +76,7 @@ class BinPackingGame:
     def available_space(self) -> int:
         return self.container.width * self.container.height - sum(box.width * box.height for box in self.boxes)
 
-    def solve(self) -> BaseBinPackingGameResult:
+    def solve(self) -> BinPackingGameResult:
         model = cp_model.CpModel()
         
         # Variables de coordenadas (x, y)

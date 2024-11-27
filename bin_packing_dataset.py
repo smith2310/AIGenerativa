@@ -44,7 +44,7 @@ class BinPackingDataset(Dataset):
         return key in self._keys
 
     def __len__(self):
-        return 1000 #len(self.data)
+        return len(self.data)
     
     def __getitem__(self, idx):
         """
